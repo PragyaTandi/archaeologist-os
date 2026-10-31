@@ -1,0 +1,416 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   ARCHAEOLOGIST OS — Design System
+   A 1995-era research computer with a forest-green identity
+   ============================================================ */
+
+:root {
+  --bg-desktop: #123d2b;
+  --bg-desktop-dark: #0e2f20;
+  --win-bg: #c8d5c0;
+  --win-bg-shadow: #aab8a1;
+  --win-title: #91a987;
+  --win-title-active: #6f8a62;
+  --text-deep: #183a28;
+  --text-deep-soft: #2c4a36;
+  --accent-phosphor: #75c66a;
+  --accent-phosphor-dim: #4f8a47;
+  --paper: #e8e0c9;
+  --paper-dark: #d8cfb3;
+  --ink: #2a2417;
+  --green-black: #10251a;
+  --line-dark: #5a6e50;
+  --line-light: #eef3ea;
+
+  /* pixel border helper */
+  --border-raised: linear-gradient(
+    to bottom,
+    var(--line-light) 0,
+    var(--line-light) 1px,
+    var(--line-dark) 1px,
+    var(--line-dark) 2px,
+    transparent 2px
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg-desktop);
+  color: var(--text-deep);
+  font-family: 'Source Code Pro', 'Courier New', monospace;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  cursor: default;
+}
+
+/* ---------- Typography helpers ---------- */
+.font-mono-pixel {
+  font-family: 'VT323', 'Courier New', monospace;
+  letter-spacing: 0.02em;
+}
+.font-mono {
+  font-family: 'Source Code Pro', 'Courier New', monospace;
+}
+.font-serif-hist {
+  font-family: 'IM Fell English', 'IM Fell DW Pica', Georgia, serif;
+}
+.font-serif-pica {
+  font-family: 'IM Fell DW Pica', Georgia, serif;
+}
+
+/* ---------- Pixel / beveled borders ---------- */
+.pixel-border {
+  border: 1px solid;
+  border-color: var(--line-light) var(--line-dark) var(--line-dark) var(--line-light);
+}
+.pixel-border-inset {
+  border: 1px solid;
+  border-color: var(--line-dark) var(--line-light) var(--line-light) var(--line-dark);
+}
+.pixel-border-thick {
+  border: 2px solid;
+  border-color: var(--line-light) var(--line-dark) var(--line-dark) var(--line-light);
+}
+
+/* raised (outset) button look */
+.btn-raised {
+  background: var(--win-bg);
+  border: 1px solid;
+  border-color: var(--line-light) var(--line-dark) var(--line-dark) var(--line-light);
+  box-shadow: inset -1px -1px 0 0 #00000020;
+  color: var(--text-deep);
+}
+.btn-raised:active,
+.btn-raised.is-active {
+  border-color: var(--line-dark) var(--line-light) var(--line-light) var(--line-dark);
+  box-shadow: inset 1px 1px 0 0 #00000020;
+}
+
+/* inset panel */
+.panel-inset {
+  background: var(--paper-dark);
+  border: 1px solid;
+  border-color: var(--line-dark) var(--line-light) var(--line-light) var(--line-dark);
+}
+
+/* ---------- Desktop wallpaper / blueprint grid ---------- */
+.desktop-bg {
+  background-color: var(--bg-desktop);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(117, 198, 106, 0.05) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+
+/* CRT scanline overlay */
+.crt-scanlines {
+  position: relative;
+}
+.crt-scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  z-index: 9999;
+  mix-blend-mode: multiply;
+}
+
+/* faint CRT vignette + flicker */
+.crt-flicker {
+  animation: crt-flicker 6s infinite steps(1);
+}
+@keyframes crt-flicker {
+  0%,
+  97%,
+  100% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.97;
+  }
+  99% {
+    opacity: 0.99;
+  }
+}
+
+/* ---------- Window appearance ---------- */
+.window-frame {
+  background: var(--win-bg);
+  border: 1px solid;
+  border-color: var(--line-light) var(--green-black) var(--green-black) var(--line-light);
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.35), 4px 4px 0 0 rgba(0, 0, 0, 0.18);
+}
+
+.title-bar {
+  background: var(--win-title);
+  color: #0d1f12;
+  border-bottom: 1px solid var(--green-black);
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 700;
+}
+.title-bar.inactive {
+  background: var(--win-bg-shadow);
+  color: #3a4a35;
+}
+
+.title-btn {
+  width: 14px;
+  height: 14px;
+  border: 1px solid;
+  border-color: var(--line-light) var(--green-black) var(--green-black) var(--line-light);
+  background: var(--win-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-deep);
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 700;
+}
+.title-btn:hover {
+  background: var(--accent-phosphor);
+}
+.title-btn:active {
+  border-color: var(--green-black) var(--line-light) var(--line-light) var(--green-black);
+}
+
+/* ---------- Scrollbars (vintage) ---------- */
+*::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--paper-dark);
+  border: 1px solid;
+  border-color: var(--line-dark) var(--line-light) var(--line-light) var(--line-dark);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--win-title);
+  border: 1px solid;
+  border-color: var(--line-light) var(--line-dark) var(--line-dark) var(--line-light);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--win-title-active);
+}
+*::-webkit-scrollbar-corner {
+  background: var(--paper-dark);
+}
+
+/* ---------- Menu bar ---------- */
+.menubar {
+  background: var(--green-black);
+  color: var(--accent-phosphor);
+  border-bottom: 1px solid #000;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 13px;
+}
+.menubar-item {
+  padding: 1px 8px;
+  cursor: default;
+  border-radius: 0;
+}
+.menubar-item:hover,
+.menubar-item.is-open {
+  background: var(--accent-phosphor-dim);
+  color: #06140d;
+}
+.menu-dropdown {
+  background: var(--win-bg);
+  color: var(--text-deep);
+  border: 1px solid var(--green-black);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  min-width: 160px;
+}
+.menu-dropdown-item {
+  padding: 3px 10px 3px 18px;
+  cursor: default;
+  white-space: nowrap;
+}
+.menu-dropdown-item:hover {
+  background: var(--win-title);
+  color: #0d1f12;
+}
+.menu-dropdown-sep {
+  height: 1px;
+  background: var(--line-dark);
+  margin: 2px 4px;
+}
+
+/* ---------- Desktop icons ---------- */
+.desktop-icon {
+  width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 2px;
+  cursor: default;
+  text-align: center;
+}
+.desktop-icon .icon-glyph {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.35));
+}
+.desktop-icon .icon-label {
+  color: var(--paper);
+  font-size: 11px;
+  font-family: 'Source Code Pro', monospace;
+  text-shadow: 1px 1px 0 #000;
+  padding: 1px 3px;
+  max-width: 72px;
+  line-height: 1.1;
+}
+.desktop-icon:hover .icon-glyph {
+  filter: drop-shadow(0 0 4px var(--accent-phosphor));
+}
+.desktop-icon.selected .icon-label {
+  background: var(--win-title-active);
+  outline: 1px dotted #eef3ea;
+}
+.desktop-icon.selected .icon-glyph {
+  opacity: 0.7;
+}
+
+/* ---------- Taskbar ---------- */
+.taskbar {
+  background: var(--green-black);
+  border-top: 1px solid #000;
+  color: var(--paper);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+}
+.taskbar-btn {
+  background: var(--win-title);
+  color: #0d1f12;
+  border: 1px solid;
+  border-color: var(--line-light) var(--green-black) var(--green-black) var(--line-light);
+  padding: 2px 8px;
+  font-size: 11px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.taskbar-btn.is-active {
+  border-color: var(--green-black) var(--line-light) var(--line-light) var(--green-black);
+  background: var(--win-bg);
+  box-shadow: inset 1px 1px 0 #00000022;
+}
+
+/* ---------- Phosphor terminal ---------- */
+.terminal-bg {
+  background: #06140d;
+  color: var(--accent-phosphor);
+  font-family: 'VT323', 'Courier New', monospace;
+}
+.terminal-text {
+  text-shadow: 0 0 4px rgba(117, 198, 106, 0.6);
+}
+
+/* ---------- Archival paper ---------- */
+.paper-sheet {
+  background: var(--paper);
+  color: var(--ink);
+  background-image:
+    radial-gradient(rgba(120, 100, 60, 0.07) 1px, transparent 1px),
+    radial-gradient(rgba(120, 100, 60, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px, 23px 23px;
+  background-position: 0 0, 11px 11px;
+  border: 1px solid #b6ac88;
+  box-shadow: inset 0 0 24px rgba(120, 100, 60, 0.12);
+}
+.paper-edge {
+  box-shadow: 2px 2px 0 #c4b894, 4px 4px 0 #b6ac88;
+}
+
+/* ---------- Animation utilities ---------- */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes spin-gear {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fade-in 0.18s ease-out;
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.scale-in {
+  animation: scale-in 0.12s ease-out;
+  transform-origin: top left;
+}
+
+/* text selection only where meaningful */
+.selectable {
+  user-select: text;
+}
+
+/* hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
