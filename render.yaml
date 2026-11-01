@@ -2,15 +2,20 @@ services:
   - type: web
     name: archaeologist-os
     runtime: node
+    plan: free
     buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
+
     envVars:
       - key: NODE_VERSION
         value: 22.16.0
+
       - key: SUPABASE_URL
         sync: false
+
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
+
       - key: SESSION_SECRET
         generateValue: true
